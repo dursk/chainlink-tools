@@ -1,0 +1,5 @@
+#!/usr/bin/env python
+
+from chainlink_tools.scripts import main
+
+main()

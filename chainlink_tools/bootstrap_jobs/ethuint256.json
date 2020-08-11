@@ -3,7 +3,7 @@
     {
       "type": "runlog",
       "params": {
-        "address": "0x0c00a49f5a9cca6f975f6d88e6549e1c417edb34"
+        "address": "YOUR_ORACLE_CONTRACT_ADDRESS"
       }
     }
   ],
@@ -15,7 +15,10 @@
       "type": "jsonparse"
     },
     {
-      "type": "ethbytes32"
+      "type": "multiply"
+    },
+    {
+      "type": "ethuint256"
     },
     {
       "type": "ethtx"
