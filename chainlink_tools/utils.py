@@ -2,7 +2,7 @@ import os
 import json
 
 
-def get_all_jobs(files):
+def get_job_specs(files):
     jobs = {}
 
     for filename in files:
@@ -58,3 +58,11 @@ def get_jobs_to_create(all_jobs, node_jobs):
     }
 
     return jobs_to_create
+
+
+def validate_job_specs(jobs):
+    for job_name, job_spec in jobs.items():
+        error = validate_job_spec(job_spec)
+
+        if error:
+            return f"Error found in {job_name}:\n{error}"

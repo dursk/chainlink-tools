@@ -3,6 +3,7 @@ import requests
 import sys
 
 from chainlink_tools import api
+from .constants import Subcommand
 from .sync_chainlink_jobs import sync_chainlink_jobs
 
 
@@ -18,7 +19,7 @@ def parse_args():
     subparsers = parser.add_subparsers(dest="subparser")
 
     sync_jobs_parser = subparsers.add_parser(
-        "sync-jobs", help="Sync job specs from a directory to your node"
+        Subcommand.SYNC_JOBS, help="Sync job specs from a directory to your node"
     )
     sync_jobs_parser.add_argument(
         "--jobs-dir", help="Path to the directory of job specs to sync", required=True
@@ -26,7 +27,7 @@ def parse_args():
     sync_jobs_parser.set_defaults(func=sync_chainlink_jobs)
 
     create_job_parser = subparsers.add_parser(
-        "create-job", help="Add an individual job spec to your node"
+        Subcommand.CREATE_JOB, help="Add an individual job spec to your node"
     )
     create_job_parser.add_argument(
         "--job", help="Path to the job spec file", required=True
@@ -34,7 +35,7 @@ def parse_args():
     create_job_parser.set_defaults(func=sync_chainlink_jobs)
 
     bootstrap_jobs_parser = subparsers.add_parser(
-        "bootstrap-jobs", help="Bootstrap your node with the default job specs"
+        Subcommand.BOOTSTRAP_JOBS, help="Bootstrap your node with the default job specs"
     )
     bootstrap_jobs_parser.add_argument(
         "--oracle-address", help="Contract address of your oracle", required=True
