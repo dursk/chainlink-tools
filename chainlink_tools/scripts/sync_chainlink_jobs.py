@@ -1,3 +1,4 @@
+import glob
 import os
 import sys
 
@@ -35,7 +36,7 @@ def sync_chainlink_jobs(args, chainlink):
 
     validate_job_specs(all_jobs)
 
-    if args.bootstrap:
+    if args.subparser == "bootstrap-jobs":
         for _, job_spec in all_jobs.items():
             job_spec["initiators"][0]["params"]["address"] = args.oracle_address.lower()
 
@@ -47,15 +48,16 @@ def sync_chainlink_jobs(args, chainlink):
         print("No new jobs found.")
         sys.exit(0)
 
-    print(f"Found {len(jobs_to_create)} jobs to create:")
-    print("\n".join([job_name for job_name in jobs_to_create]))
-    print("Continue? [y/n]")
+    if args.subparser != "create-job":
+        print(f"Found {len(jobs_to_create)} jobs to create:")
+        print("\n".join([job_name for job_name in jobs_to_create]))
+        print("Continue? [y/n]")
 
-    response = input()
+        response = input()
 
-    if response.lower() != "y":
-        print("Aborting!")
-        sys.exit(0)
+        if response.lower() != "y":
+            print("Aborting!")
+            sys.exit(0)
 
     for job_name, job_spec in jobs_to_create.items():
         print(f"Creating {job_name}")

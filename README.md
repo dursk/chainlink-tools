@@ -1,8 +1,8 @@
 # Chainlink Tools
 
-`chainlink-tools` is a command line utility designec to make life easier for Chainlink node operators.
+`chainlink-tools` is a command line utility designed to make life easier for Chainlink node operators.
 
-### Notes
+#### Notes
 
 Authentication with the node is managed by the same `.api` file as outlined in the [official Chainlink documentation](https://docs.chain.link/docs/miscellaneous#config).
 
@@ -11,7 +11,7 @@ Authentication with the node is managed by the same `.api` file as outlined in t
 $ pip install chainlink-tools
 ```
 
-### Bootstrapping a node
+## Bootstrapping a node
 The `bootstrap-jobs` subcommand allows for easy bootstrapping when setting up a node for the first time.
 ```
 $ chainlink-tools \
@@ -29,16 +29,16 @@ This will add the five default jobs to the node, as outlined in the [Chainlink d
 
 The address you pass in for `--oracle-address` will be set as the address for the `RunLog` initiator.
 
-### Adding new jobs to a node
-`chainlink-tools` provides two difference mechanisms for adding new jobs to a node.
-#### Syncing a directory of jobs
+## Adding new jobs to a node
+`chainlink-tools` provides two different mechanisms for adding new jobs to a node.
+### Syncing a directory of jobs
 The `sync-jobs` subcommand allows for syncing a directory of job specs to a running node.
 ```
 $ chainlink-tools \
     --credentials "/path/to/.api/file" \
     --node-url "http://localhost:6688" \
     sync-jobs \
-    --jobs_dir "/path/to/jobs/dir" \
+    --jobs_dir "/path/to/jobs/dir"
 ```
 `--jobs-dir` should be the path to a directory of `.json` files of job specs:
 ```
@@ -47,15 +47,15 @@ chainlink-jobs
 |   btcusd.json
 |   linkusd.json
 ```
-`sync-jobs` will first check to see if the job already exists in the node. This is done by doing a field by field comparison of all initators, tasks, and other top level fields. For any jobs in the specified directory not already found on the node, `sync-jobs` will add them to the node.
+`sync-jobs` will first check to see if the job already exists in the node. This is done by doing a comparison of all initators, tasks, and other top level fields. For any jobs in the specified directory not already found on the node, `sync-jobs` will add them to the node.
 
 This allows you to keep a single running directory of all your jobs and run `sync-jobs` on the whole directory every time you add a new one.
-#### Specifying a single job to add to a node
+### Specifying a single job to add to a node
 Alternatively, if you would like to manually create each individual job, the `create-job` subcommand allows for specifying a single job to add to a node.
 ```
 $ chainlink-tools \
     --credentials "/path/to/.api/file" \
     --node-url "http://localhost:6688" \
     create-job \
-    --job "/path/to/job1.json" \
+    --job "/path/to/job1.json"
 ```
