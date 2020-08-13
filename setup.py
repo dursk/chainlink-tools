@@ -26,6 +26,7 @@ if __name__ == "__main__":
         description="Utilities for operating a chainlink node.",
         long_description=long_description,
         long_description_content_type="text/markdown",
+        keywords="chainlink oracle smart contract",
         author="dursk",
         license="MIT",
     )
