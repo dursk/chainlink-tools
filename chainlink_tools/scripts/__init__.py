@@ -16,6 +16,7 @@ def parse_args():
     parser.add_argument("--node-url", required=True, help="URL to the running node")
 
     subparsers = parser.add_subparsers()
+
     sync_jobs_parser = subparsers.add_parser(
         "sync-jobs", help="Sync job specs from a directory to your node"
     )
@@ -27,6 +28,7 @@ def parse_args():
         help="Bootstrap node with the initial required jobs",
         action="store_true",
     )
+    sync_jobs_parser.add_argument("--oracle-address", help="Address of your oracle")
     sync_jobs_parser.set_defaults(func=sync_chainlink_jobs)
 
     return parser.parse_args()

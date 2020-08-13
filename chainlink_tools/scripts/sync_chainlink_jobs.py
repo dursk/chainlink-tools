@@ -4,21 +4,36 @@ import sys
 from chainlink_tools import utils
 
 
-def sync_chainlink_jobs(args, chainlink):
+def process_args(args):
     if args.bootstrap:
+
+        if not args.oracle_address:
+            sys.exit("--oracle-address is required when bootstrapping")
         args.jobs_dir = os.path.join(
             os.path.dirname(os.path.realpath(__file__)), os.pardir, "bootstrap_jobs"
         )
     elif not args.jobs_dir:
         sys.exit("Either --jobs-dir or --bootstrap must be specified")
 
-    all_jobs = utils.get_all_jobs(args.jobs_dir)
 
-    for job_name, job_spec in all_jobs.items():
+def validate_job_specs(jobs):
+    for job_name, job_spec in jobs.items():
         error = utils.validate_job_spec(job_spec)
 
         if error:
             sys.exit(f"Error found in {job_name}:\n{error}")
+
+
+def sync_chainlink_jobs(args, chainlink):
+    process_args(args)
+
+    all_jobs = utils.get_all_jobs(args.jobs_dir)
+
+    validate_job_specs(all_jobs)
+
+    if args.bootstrap:
+        for _, job_spec in all_jobs.items():
+            job_spec["initiators"][0]["params"]["address"] = args.oracle_address.lower()
 
     node_jobs = chainlink.get_specs()
 
