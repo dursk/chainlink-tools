@@ -4,9 +4,7 @@ import glob
 import json
 
 
-def get_all_jobs(job_dir):
-    files = glob.glob(f"{job_dir}/*.json")
-
+def get_all_jobs(files):
     jobs = {}
 
     for filename in files:

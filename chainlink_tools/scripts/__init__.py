@@ -15,21 +15,31 @@ def parse_args():
     )
     parser.add_argument("--node-url", required=True, help="URL to the running node")
 
-    subparsers = parser.add_subparsers()
+    subparsers = parser.add_subparsers(dest="subparser")
 
     sync_jobs_parser = subparsers.add_parser(
         "sync-jobs", help="Sync job specs from a directory to your node"
     )
     sync_jobs_parser.add_argument(
-        "--jobs-dir", help="Path to the directory of job specs to sync",
+        "--jobs-dir", help="Path to the directory of job specs to sync", required=True
     )
-    sync_jobs_parser.add_argument(
-        "--bootstrap",
-        help="Bootstrap node with the initial required jobs",
-        action="store_true",
-    )
-    sync_jobs_parser.add_argument("--oracle-address", help="Address of your oracle")
     sync_jobs_parser.set_defaults(func=sync_chainlink_jobs)
+
+    create_job_parser = subparsers.add_parser(
+        "create-job", help="Add an individual job spec to your node"
+    )
+    create_job_parser.add_argument(
+        "--job", help="Path to the job spec file", required=True
+    )
+    create_job_parser.set_defaults(func=sync_chainlink_jobs)
+
+    bootstrap_jobs_parser = subparsers.add_parser(
+        "bootstrap-jobs", help="Bootstrap your node with the default job specs"
+    )
+    bootstrap_jobs_parser.add_argument(
+        "--oracle-address", help="Contract address of your oracle", required=True
+    )
+    bootstrap_jobs_parser.set_defaults(func=sync_chainlink_jobs)
 
     return parser.parse_args()
 

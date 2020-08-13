@@ -4,16 +4,20 @@ import sys
 from chainlink_tools import utils
 
 
-def process_args(args):
-    if args.bootstrap:
-
-        if not args.oracle_address:
-            sys.exit("--oracle-address is required when bootstrapping")
-        args.jobs_dir = os.path.join(
+def get_job_files(args):
+    if args.subparser == "bootstrap-jobs":
+        jobs_dir = os.path.join(
             os.path.dirname(os.path.realpath(__file__)), os.pardir, "bootstrap_jobs"
         )
-    elif not args.jobs_dir:
-        sys.exit("Either --jobs-dir or --bootstrap must be specified")
+        files = glob.glob(f"{jobs_dir}/*.json")
+    elif args.subparser == "sync-jobs":
+        files = glob.glob(f"{args.jobs_dir}/*.json")
+    else:
+        if not args.job.endswith(".json"):
+            sys.exit(f"Specific job spec file ${args.job} is not a .json file")
+        files = [args.job]
+
+    return files
 
 
 def validate_job_specs(jobs):
@@ -25,9 +29,9 @@ def validate_job_specs(jobs):
 
 
 def sync_chainlink_jobs(args, chainlink):
-    process_args(args)
+    files = get_job_files(args)
 
-    all_jobs = utils.get_all_jobs(args.jobs_dir)
+    all_jobs = utils.get_all_jobs(files)
 
     validate_job_specs(all_jobs)
 
