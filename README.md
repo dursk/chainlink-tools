@@ -2,11 +2,11 @@
 
 `chainlink-tools` is a command line utility designed to make life easier for Chainlink node operators.
 
-#### Notes
+### Notes
 
 Authentication with the node is managed by the same `.api` file as outlined in the [official Chainlink documentation](https://docs.chain.link/docs/miscellaneous#config).
 
-### Install
+## Install
 ```
 $ pip install chainlink-tools
 ```
