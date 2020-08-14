@@ -1,3 +1,5 @@
+![Python package](https://github.com/dursk/chainlink-tools/workflows/Python%20package/badge.svg)
+
 # Chainlink Tools
 
 `chainlink-tools` is a command line utility designed to make life easier for Chainlink node operators.
