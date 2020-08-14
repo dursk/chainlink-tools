@@ -50,6 +50,8 @@ chainlink-jobs
 `sync-jobs` will first check to see if the job already exists in the node. This is done by doing a comparison of all initators, tasks, and other top level fields. For any jobs in the specified directory not already found on the node, `sync-jobs` will add them to the node.
 
 This allows you to keep a single running directory of all your jobs and run `sync-jobs` on the whole directory every time you add a new one.
+
+*Note: For comparison purposes, all ETH addresses that appear in a job spec should be lowercase.*
 ### Specifying a single job to add to a node
 Alternatively, if you would like to manually create each individual job, the `create-job` subcommand allows for specifying a single job to add to a node.
 ```

@@ -1,0 +1,24 @@
+{
+  "initiators": [
+    {
+      "type": "runlog",
+      "params": {
+        "address": "<ORACLE_CONTRACT_ADDRESS>"
+      }
+    }
+  ],
+  "tasks": [
+    {
+      "type": "httpget"
+    },
+    {
+      "type": "jsonparse"
+    },
+    {
+      "type": "ethbool"
+    },
+    {
+      "type": "ethtx"
+    }
+  ]
+}

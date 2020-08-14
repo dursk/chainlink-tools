@@ -66,3 +66,25 @@ def validate_job_specs(jobs):
 
         if error:
             return f"Error found in {job_name}:\n{error}"
+
+
+def get_and_validate_job_specs(files):
+    job_specs = get_job_specs(files)
+
+    errors = validate_job_specs(job_specs)
+
+    if errors:
+        raise Exception(errors)
+
+    return job_specs
+
+
+def create_jobs(jobs, chainlink):
+    for job_name, job_spec in jobs.items():
+        print(f"Creating {job_name}")
+        chainlink.create_spec(job_spec)
+
+
+def set_oracle_address(job_specs, address):
+    for job_spec in job_specs:
+        job_spec["initiators"][0]["params"]["address"] = address.lower()
