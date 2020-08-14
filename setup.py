@@ -30,6 +30,5 @@ if __name__ == "__main__":
         keywords="chainlink oracle smart contract",
         author="dursk",
         license="MIT",
-        url=URL,
-        source=URL,
+        project_urls={"Source": URL,},
     )
