@@ -43,7 +43,10 @@ def sync_chainlink_jobs(args, chainlink):
 
     job_specs = utils.get_job_specs(files)
 
-    utils.validate_job_specs(job_specs)
+    errors = utils.validate_job_specs(job_specs)
+
+    if errors:
+        sys.exit(errors)
 
     if args.subparser == Subcommand.BOOTSTRAP_JOBS:
         set_oracle_address(job_specs.values(), args.oracle_address)
