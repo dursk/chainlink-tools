@@ -5,6 +5,7 @@ import sys
 from chainlink_tools import api
 from .constants import Subcommand
 from .sync_chainlink_jobs import sync_chainlink_jobs
+from .export_jobs import export_jobs
 
 
 def parse_args():
@@ -41,6 +42,17 @@ def parse_args():
         "--oracle-address", help="Contract address of your oracle", required=True
     )
     bootstrap_jobs_parser.set_defaults(func=sync_chainlink_jobs)
+
+    export_jobs_parser = subparsers.add_parser(Subcommand.EXPORT_JOBS)
+    export_jobs_parser.add_argument(
+        "--dest", help="Directory to export jobs to", required=True
+    )
+    export_jobs_parser.add_argument(
+        "--prune",
+        help="Prune jobs down to just the spec. Removes things like ids and timestamps",
+        action="store_true",
+    )
+    export_jobs_parser.set_defaults(func=export_jobs)
 
     return parser.parse_args()
 
