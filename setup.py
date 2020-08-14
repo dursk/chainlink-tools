@@ -2,8 +2,9 @@ import runpy
 from setuptools import setup, find_packages
 
 PACKAGE_NAME = "chainlink-tools"
-version_meta = runpy.run_path("./version.py")
+version_meta = runpy.run_path("./chainlink-tools/__version__.py")
 VERSION = version_meta["__version__"]
+URL = version_meta["__url__"]
 
 
 with open("README.md", "r") as fh:
@@ -29,4 +30,6 @@ if __name__ == "__main__":
         keywords="chainlink oracle smart contract",
         author="dursk",
         license="MIT",
+        url=URL,
+        source=URL,
     )
