@@ -17,10 +17,10 @@ $ pip install chainlink-tools
 The `bootstrap-jobs` subcommand allows for easy bootstrapping when setting up a node for the first time.
 ```
 $ chainlink-tools \
-    --credentials "/path/to/.api/file" \
-    --node-url "http://localhost:6688" \
     bootstrap-jobs \
-    --oracle-address "YOUR_ORACLE_CONTRACT_ADDRESS"
+    --oracle-address "YOUR_ORACLE_CONTRACT_ADDRESS" \
+    --credentials "/path/to/.api/file" \
+    --node-url "http://localhost:6688"
 ```
 This will add the five default jobs to the node, as outlined in the [Chainlink docs](https://docs.chain.link/docs/fulfilling-requests#add-jobs-to-the-node):
 * EthBytes32 (GET)
@@ -33,14 +33,14 @@ The address you pass in for `--oracle-address` will be set as the address for th
 
 ## Adding new jobs to a node
 `chainlink-tools` provides two different mechanisms for adding new jobs to a node.
-### Syncing a directory of jobs
+### Sync a directory of jobs
 The `sync-jobs` subcommand allows for syncing a directory of job specs to a running node.
 ```
 $ chainlink-tools \
-    --credentials "/path/to/.api/file" \
-    --node-url "http://localhost:6688" \
     sync-jobs \
-    --jobs_dir "/path/to/jobs/dir"
+    --jobs_dir "/path/to/jobs/dir" \
+    --credentials "/path/to/.api/file" \
+    --node-url "http://localhost:6688"
 ```
 `--jobs-dir` should be the path to a directory of `.json` files of job specs:
 ```
@@ -58,8 +58,8 @@ This allows you to keep a single running directory of all your jobs and run `syn
 Alternatively, if you would like to manually create each individual job, the `create-job` subcommand allows for specifying a single job to add to a node.
 ```
 $ chainlink-tools \
-    --credentials "/path/to/.api/file" \
-    --node-url "http://localhost:6688" \
     create-job \
-    --job "/path/to/job1.json"
+    --job "/path/to/job1.json" \
+    --credentials "/path/to/.api/file" \
+    --node-url "http://localhost:6688"
 ```

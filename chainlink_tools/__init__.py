@@ -6,42 +6,57 @@ from .constants import Subcommand
 from . import api, scripts
 
 
-def parse_args(args):
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
+def create_subparser(subparsers, subcommand, func, **kwargs):
+    args_validator = kwargs.pop("args_validator", None)
+
+    subparser = subparsers.add_parser(subcommand, **kwargs)
+
+    subparser.set_defaults(func=func, args_validator=args_validator)
+    subparser.add_argument(
         "--credentials",
         required=True,
         help="Path to credentials file. This file should be similar to the .api file for the node. First line: username, second line: password",
     )
-    parser.add_argument("--node-url", required=True, help="URL to the running node")
+    subparser.add_argument("--node-url", required=True, help="URL to the running node")
+
+    return subparser
+
+
+def parse_args(args):
+    parser = argparse.ArgumentParser()
 
     subparsers = parser.add_subparsers(dest="subparser")
 
-    sync_jobs_parser = subparsers.add_parser(
-        Subcommand.SYNC_JOBS, help="Sync job specs from a directory to your node"
+    sync_jobs_parser = create_subparser(
+        subparsers,
+        Subcommand.SYNC_JOBS,
+        scripts.sync_jobs,
+        help="Sync job specs from a directory to your node",
     )
     sync_jobs_parser.add_argument(
         "--jobs-dir", help="Path to the directory of job specs to sync", required=True
     )
-    sync_jobs_parser.set_defaults(func=scripts.sync_jobs)
 
-    create_job_parser = subparsers.add_parser(
-        Subcommand.CREATE_JOB, help="Add an individual job spec to your node"
+    create_job_parser = create_subparser(
+        subparsers,
+        Subcommand.CREATE_JOB,
+        scripts.create_job,
+        args_validator=scripts.validate_create_job_args,
+        help="Add an individual job spec to your node",
     )
     create_job_parser.add_argument(
         "--job", help="Path to the job spec file", required=True
     )
-    create_job_parser.set_defaults(
-        func=scripts.create_job, args_validator=scripts.validate_create_job_args
-    )
 
-    bootstrap_jobs_parser = subparsers.add_parser(
-        Subcommand.BOOTSTRAP_JOBS, help="Bootstrap your node with the default job specs"
+    bootstrap_jobs_parser = create_subparser(
+        subparsers,
+        Subcommand.BOOTSTRAP_JOBS,
+        scripts.bootstrap_jobs,
+        help="Bootstrap your node with the default job specs",
     )
     bootstrap_jobs_parser.add_argument(
         "--oracle-address", help="Contract address of your oracle", required=True
     )
-    bootstrap_jobs_parser.set_defaults(func=scripts.bootstrap_jobs)
 
     return parser.parse_args(args)
 
